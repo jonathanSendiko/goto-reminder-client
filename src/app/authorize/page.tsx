@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 async function verifySubscription(code: string) {
-  console.log("code", code);
-  console.log("REDIRECT SUCCESS");
   const response = await fetch(
     `https://2983-36-66-71-34.ngrok-free.app/api/v1/authorize?auth_code=${code}`,
     {
@@ -20,12 +18,15 @@ async function verifySubscription(code: string) {
   return { success: true };
 }
 
+interface AuthorizePageProps {
+  searchParams: Promise<{ code: string }>;
+}
+
 export default async function AuthorizePage({
   searchParams,
-}: {
-  searchParams: { code: string };
-}) {
-  const { code } = searchParams;
+}: AuthorizePageProps) {
+  const params = await searchParams;
+  const { code } = params;
 
   if (!code) {
     redirect("/");
