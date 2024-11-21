@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 async function verifySubscription(code: string) {
   const response = await fetch(
-    `https://2983-36-66-71-34.ngrok-free.app/api/v1/authorize?auth_code=${code}`,
+    `https://1851-36-66-71-34.ngrok-free.app/api/v1/authorize?auth_code=${code}`,
     {
       method: "GET",
       headers: {
