@@ -1,10 +1,7 @@
 "use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -13,15 +10,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export default function EmailCapturePage() {
-  const [email, setEmail] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+export default function SubscribePage() {
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the email to your backend
-    console.log("Email submitted:", email);
-    setIsSubmitted(true);
+    const encodedUri = encodeURIComponent("http://localhost:3000/authorize");
+    router.push(
+      `${process.env.NEXT_PUBLIC_AUTH_LARK_URL}?app_id=${process.env.NEXT_PUBLIC_LARK_APP_ID}&redirect_uri=${encodedUri}`
+    );
   };
 
   return (
@@ -46,37 +43,14 @@ export default function EmailCapturePage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-green-700">
-                  Work Email Address
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@company.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="border-green-300 focus:border-green-500 focus:ring-green-500"
-                />
-                <p className="text-xs text-green-600">
-                  Please use your work email linked to Lark and Jira.
-                </p>
-              </div>
-              <Button
-                type="submit"
-                className="w-full bg-green-500 hover:bg-green-600"
-              >
-                Subscribe
-              </Button>
-            </form>
-          ) : (
-            <div className="text-center text-green-600">
-              Thank you for subscribing to the AI Task Assistant bot!
-            </div>
-          )}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Button
+              type="submit"
+              className="w-full bg-green-500 hover:bg-green-600"
+            >
+              Authorize & Subscribe
+            </Button>
+          </form>
         </CardContent>
       </Card>
     </div>
