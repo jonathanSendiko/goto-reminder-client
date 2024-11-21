@@ -9,12 +9,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useState } from "react";
 
 export default function SubscribePage() {
   const router = useRouter();
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitted(true);
     const encodedUri = encodeURIComponent(
       "https://goto-reminder-client.vercel.app/authorize"
     );
@@ -48,7 +51,12 @@ export default function SubscribePage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <Button
               type="submit"
-              className="w-full bg-green-500 hover:bg-green-600"
+              className={`w-full ${
+                isSubmitted
+                  ? "bg-gray-700 cursor-not-allowed"
+                  : "bg-green-500 hover:bg-green-600"
+              }`}
+              disabled={isSubmitted}
             >
               Authorize & Subscribe
             </Button>
