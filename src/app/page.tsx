@@ -22,7 +22,7 @@ export default function SubscribePage() {
       "https://goto-reminder-client.vercel.app/authorize"
     );
     router.push(
-      `${process.env.NEXT_PUBLIC_AUTH_LARK_URL}?app_id=${process.env.NEXT_PUBLIC_LARK_APP_ID}&redirect_uri=${encodedUri}?scope=calendar:calendar`
+      `${process.env.NEXT_PUBLIC_AUTH_LARK_URL}?app_id=${process.env.NEXT_PUBLIC_LARK_APP_ID}&redirect_uri=${encodedUri}&scope=calendar:calendar`
     );
   };
 
