@@ -15,7 +15,9 @@ export default function SubscribePage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const encodedUri = encodeURIComponent("http://localhost:3000/authorize");
+    const encodedUri = encodeURIComponent(
+      "https://goto-reminder-client.vercel.app/authorize"
+    );
     router.push(
       `${process.env.NEXT_PUBLIC_AUTH_LARK_URL}?app_id=${process.env.NEXT_PUBLIC_LARK_APP_ID}&redirect_uri=${encodedUri}`
     );
