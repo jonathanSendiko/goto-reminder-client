@@ -85,7 +85,7 @@ function SubscriptionForm() {
                   <SelectItem value="oogway">
                     Oogway (From Kungfu Panda)
                   </SelectItem>
-                  <SelectItem value="gordan_ramsay">Gordon Ramsay</SelectItem>
+                  <SelectItem value="gordon_ramsay">Gordon Ramsay</SelectItem>
                 </SelectContent>
               </Select>
               <Button
