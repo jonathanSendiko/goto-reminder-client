@@ -86,6 +86,7 @@ function SubscriptionForm() {
                     Oogway (From Kungfu Panda)
                   </SelectItem>
                   <SelectItem value="gordon_ramsay">Gordon Ramsay</SelectItem>
+                  <SelectItem value="donald_trump">Donald Trump</SelectItem>
                 </SelectContent>
               </Select>
               <Button
