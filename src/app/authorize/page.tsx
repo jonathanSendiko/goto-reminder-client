@@ -35,6 +35,7 @@ function SubscriptionForm() {
   const code = searchParams.get("code");
   const [personality, setPersonality] = useState("");
   const [isVerified, setIsVerified] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleVerify = async () => {
@@ -42,6 +43,8 @@ function SubscriptionForm() {
       setMessage("Please select a personality before verifying.");
       return;
     }
+
+    setIsSubmitted(true);
 
     const result = await verifySubscription(code, personality);
     setIsVerified(result.success);
@@ -88,7 +91,7 @@ function SubscriptionForm() {
               <Button
                 onClick={handleVerify}
                 className={`w-full ${
-                  isVerified
+                  isSubmitted
                     ? "bg-gray-700 cursor-not-allowed"
                     : "bg-green-500 hover:bg-green-600"
                 }`}

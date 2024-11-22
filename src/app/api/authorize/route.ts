@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (request: NextRequest) => {
   const auth_code = request.nextUrl.searchParams.get("auth_code");
-  const personality = request.nextUrl.searchParams.get("auth_code");
+  const personality = request.nextUrl.searchParams.get("personality");
 
   if (!auth_code || !personality) {
     return new NextResponse("Please provide an auth code and personality.", {
