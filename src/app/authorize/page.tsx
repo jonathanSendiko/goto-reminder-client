@@ -14,14 +14,16 @@ import { Button } from "@/components/ui/button";
 
 async function verifySubscription(code: string, personality: string) {
   const response = await fetch(
-    `https://1851-36-66-71-34.ngrok-free.app/api/v1/authorize?auth_code=${code}&personality=${personality}`,
+    `/api/authorize?auth_code=${code}&personality=${personality}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
       },
     }
   );
+  console.log(response);
   if (!response.ok) {
     return { success: false };
   }
@@ -85,7 +87,12 @@ function SubscriptionForm() {
               </Select>
               <Button
                 onClick={handleVerify}
-                className="w-full bg-green-500 hover:bg-green-600"
+                className={`w-full ${
+                  isVerified
+                    ? "bg-gray-700 cursor-not-allowed"
+                    : "bg-green-500 hover:bg-green-600"
+                }`}
+                disabled={isVerified}
               >
                 Verify Subscription
               </Button>
