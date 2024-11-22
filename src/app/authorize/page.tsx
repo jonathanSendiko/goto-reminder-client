@@ -1,4 +1,5 @@
 "use client";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +11,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
 async function verifySubscription(code: string, personality: string) {
   const response = await fetch(
@@ -28,7 +28,7 @@ async function verifySubscription(code: string, personality: string) {
   return { success: true };
 }
 
-export default function SubscriptionSuccessPage() {
+function SubscriptionForm() {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
   const [personality, setPersonality] = useState("");
@@ -104,5 +104,13 @@ export default function SubscriptionSuccessPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function SubscriptionSuccessPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SubscriptionForm />
+    </Suspense>
   );
 }
