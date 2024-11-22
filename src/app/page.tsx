@@ -58,7 +58,7 @@ export default function SubscribePage() {
               }`}
               disabled={isSubmitted}
             >
-              Authorize & Subscribe
+              Authorize
             </Button>
           </form>
         </CardContent>

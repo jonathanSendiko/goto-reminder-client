@@ -1,10 +1,20 @@
-import { redirect } from "next/navigation";
+"use client";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
-async function verifySubscription(code: string) {
+async function verifySubscription(code: string, personality: string) {
   const response = await fetch(
-    `https://1851-36-66-71-34.ngrok-free.app/api/v1/authorize?auth_code=${code}`,
+    `https://1851-36-66-71-34.ngrok-free.app/api/v1/authorize?auth_code=${code}&personality=${personality}`,
     {
       method: "GET",
       headers: {
@@ -18,25 +28,22 @@ async function verifySubscription(code: string) {
   return { success: true };
 }
 
-interface AuthorizePageProps {
-  searchParams: Promise<{ code: string }>;
-}
+export default function SubscriptionSuccessPage() {
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
+  const [personality, setPersonality] = useState("");
+  const [isVerified, setIsVerified] = useState(false);
+  const [message, setMessage] = useState("");
 
-export default async function AuthorizePage({
-  searchParams,
-}: AuthorizePageProps) {
-  const params = await searchParams;
-  const { code } = params;
+  const handleVerify = async () => {
+    if (!code || !personality) {
+      setMessage("Please select a personality before verifying.");
+      return;
+    }
 
-  if (!code) {
-    redirect("/");
-  }
-
-  const result = await verifySubscription(code);
-
-  if (!result.success) {
-    redirect("/");
-  }
+    const result = await verifySubscription(code, personality);
+    setIsVerified(result.success);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-green-50">
@@ -52,17 +59,48 @@ export default async function AuthorizePage({
             />
           </div>
           <CardTitle className="text-2xl font-bold text-center text-green-700">
-            Subscription Successful!
+            {isVerified
+              ? "Subscription Successful!"
+              : "Verify Your Subscription"}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-center text-green-600 mb-4">
-            Thank you for subscribing to the AI Task Assistant bot. Your
-            subscription has been successfully verified.
-          </p>
-          <p className="text-center text-green-600">
-            You can now close this window and return to your workflow.
-          </p>
+          {!isVerified ? (
+            <>
+              <p className="text-center text-green-600 mb-4">
+                Please select your preferred AI assistant personality and click
+                verify to complete your subscription.
+              </p>
+              <Select onValueChange={setPersonality} value={personality}>
+                <SelectTrigger className="w-full mb-4">
+                  <SelectValue placeholder="Select AI personality" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="normal">Normal</SelectItem>
+                  <SelectItem value="oogway">
+                    Oogway (From Kungfu Panda)
+                  </SelectItem>
+                  <SelectItem value="gordan_ramsay">Gordon Ramsay</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button
+                onClick={handleVerify}
+                className="w-full bg-green-500 hover:bg-green-600"
+              >
+                Verify Subscription
+              </Button>
+              {message && (
+                <p className="text-center text-green-600 mt-4">{message}</p>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="text-center text-green-600 mb-4">{message}</p>
+              <p className="text-center text-green-600">
+                You can now close this window and return to your workflow.
+              </p>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>
